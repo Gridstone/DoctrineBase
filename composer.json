@@ -1,0 +1,21 @@
+{
+    "name": "adityasetiono/doctrine-base",
+    "description": "Doctrine Base Entity with Serializer/Deserializer",
+    "type": "library",
+    "require": {
+        "php": "^7.0",
+        "doctrine/orm": "^2.5"
+    },
+    "authors": [
+        {
+            "name": "Aditya Setiono",
+            "email": "winged.zach@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "adityasetiono\\DoctrineBase" : "src"
+        }
+    }
+}
