@@ -5,16 +5,16 @@ namespace adityasetiono\DoctrineBase\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-abstract class BaseEntity
+abstract class UuidBaseEntity
 {
     use Serializable;
-
+    
     /**
      * @ORM\Id
      * @ORM\Column(type="guid")
      * @ORM\GeneratedValue(strategy="UUID")
      */
-    protected $id;
+    protected $uuid;
 
     /**
      * @ORM\Column(type="bigint", nullable=true)
@@ -48,14 +48,14 @@ abstract class BaseEntity
         $this->setUpdatedAt(time() * 1000);
     }
 
-    public function getId(): string
+    public function getUuid(): string
     {
-        return $this->id;
+        return $this->uuid;
     }
 
-    public function setId(string $id)
+    public function setUuid(string $uuid)
     {
-        $this->id = $id;
+        $this->uuid = $uuid;
     }
 
     public function getCreatedAt(): int
