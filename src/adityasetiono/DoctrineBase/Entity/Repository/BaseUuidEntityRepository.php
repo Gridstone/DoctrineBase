@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace adityasetiono\DoctrineBase\Entity\Repository;
 
-class BaseEntityRepository extends \Doctrine\ORM\EntityRepository
+class BaseUuidEntityRepository extends \Doctrine\ORM\EntityRepository
 {
     public function delete(string $uuid): void
     {

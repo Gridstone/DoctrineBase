@@ -1,2 +1,4 @@
 composer.lock
 vendor/
+/.idea/workspace.xml
+/.idea/doctrine-base.iml
