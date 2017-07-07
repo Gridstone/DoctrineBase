@@ -76,7 +76,7 @@ class Serializer
                 return preg_match('/^get.*/', $method);
             });
             $labels = array_map(function ($getter) {
-                return preg_replace('/^get/', '', strtolower($getter));
+                return lcfirst(preg_replace('/^get/', '', $getter));
             }, $getters);
         }
         $fields = array_combine($labels, $getters);
