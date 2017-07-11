@@ -1,7 +1,6 @@
 <?php
 
 namespace adityasetiono\DoctrineBase\Util;
-
 class Serializer
 {
     public static function deserialize($object, ?array $options = null): array
@@ -11,6 +10,7 @@ class Serializer
         foreach ($fields as $field => $getter) { // loop through the field-getter key-value pair
             $attr = null;
             $n = empty($nestedOptions[$field]) ? null : $nestedOptions[$field]; // reset nestedOptions to null if empty
+            $gs = explode('.', $getter);
             if (method_exists($object, $getter)) {
                 $attr = $object->{$getter}(); // call the getter method
                 $temp = [];
@@ -32,6 +32,13 @@ class Serializer
                 }
             } elseif ($getter === false) { // creating a custom object from the parents attributes
                 $attr = self::deserialize($object, $n);
+            } elseif (count($gs) > 1) {
+                $attr = $object;
+                foreach ($gs as $g) {
+                    if (method_exists($attr, $g)) {
+                        $attr = $attr->{$g}();
+                    }
+                }
             }
             $arr[$field] = $attr;
         }
@@ -42,7 +49,7 @@ class Serializer
     {
         $object = is_null($object) ? new $className : $object;
         foreach ($params as $field => $value) {
-            $setter = "set" . ucwords($field);
+            $setter = 'set' . ucwords($field);
             if (method_exists($object, $setter)) {
                 $object->{$setter}($value);
             }
@@ -59,14 +66,22 @@ class Serializer
                 // initialize the getters from the field name
                 if (!is_string($field)) { // if the attribute needs to be deserialized again
                     if (isset($field['__field'])) {
-                        $getters[] = "get" . ucwords($field['__field']);
+                        $getters[] = 'get' . ucwords($field['__field']);
                         unset($field['__field']);
                     } else { // else the object is a custom object which values derived from this parent object
                         $getters[] = false;
                     }
                     $nestedOptions[$label] = $field;
                 } else { // else the attribute is just a primitive value from the getter method
-                    $getters[] = "get" . ucwords($field);
+                    $fs = explode('.', $field);
+                    if (count($fields) <= 1) {
+                        $getters[] = 'get' . ucwords($field);
+                    } else {
+                        $fs = array_map(function ($f) {
+                            return 'get' . ucwords($f);
+                        }, $fs);
+                        $getters[] = implode('.', $fs);
+                    }
                 }
             }
             $labels = array_keys($fields);
