@@ -83,7 +83,7 @@ abstract class BaseEntity
         return $this->deleted;
     }
 
-    public function setDeleted(int $deleted)
+    public function setDeleted(?int $deleted)
     {
         $this->deleted = $deleted;
     }
