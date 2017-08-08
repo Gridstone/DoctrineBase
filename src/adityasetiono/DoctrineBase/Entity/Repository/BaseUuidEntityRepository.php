@@ -11,6 +11,7 @@ class BaseUuidEntityRepository extends \Doctrine\ORM\EntityRepository
             ->update($this->_entityName, 'e')
             ->set('e.deleted', time()*1000)
             ->where('e.uuid = :uuid')
+            ->andWhere('e.deleted IS NULL')
             ->setParameter(':uuid', $uuid)
             ->getQuery()
             ->execute();
