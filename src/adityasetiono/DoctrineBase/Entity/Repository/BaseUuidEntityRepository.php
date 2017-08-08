@@ -5,9 +5,9 @@ namespace adityasetiono\DoctrineBase\Entity\Repository;
 
 class BaseUuidEntityRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function delete(string $uuid): void
+    public function delete(string $uuid)
     {
-        $this->_em->createQueryBuilder()
+        return $this->_em->createQueryBuilder()
             ->update($this->_entityName, 'e')
             ->set('e.deleted', time()*1000)
             ->where('e.uuid = :uuid')
